@@ -1,0 +1,290 @@
+# Run Playwright Test
+
+## Purpose
+
+This skill helps create, maintain, and execute Playwright automated tests using TypeScript, Page Object Model (POM), and GitHub Actions CI/CD.
+
+Use this skill when:
+
+* Creating Playwright test cases
+* Building Page Object Models
+* Adding UI/UX validation tests
+* Implementing functional testing
+* Adding negative and boundary test scenarios
+* Configuring GitHub Actions workflows
+* Troubleshooting Playwright automation issues
+* Improving test maintainability and stability
+
+---
+
+## Environment Requirements
+
+### Install Dependencies
+
+```bash
+npm ci
+```
+
+### Install Playwright Browsers
+
+```bash
+npx playwright install --with-deps
+```
+
+---
+
+## Project Standards
+
+### Technology Stack
+
+* Playwright
+* TypeScript
+* GitHub Actions
+* Page Object Model (POM)
+
+### Coding Standards
+
+* Use TypeScript strict mode
+* Use Page Object Model
+* Separate test logic from page logic
+* Use meaningful test names
+* Use `test.describe()`
+* Use `test.step()`
+* Avoid hard-coded waits (`sleep`)
+* Use Playwright auto-waiting mechanisms
+
+---
+
+## Test Coverage Requirements
+
+Every feature should include:
+
+### Positive Tests
+
+* Happy Path validation
+* Navigation verification
+* Data validation
+* UI element verification
+
+### Negative Tests
+
+* Invalid input
+* Empty input
+* Unauthorized access
+* Error handling
+
+### Boundary Tests
+
+* Maximum length
+* Minimum length
+* Special characters
+* Edge conditions
+
+---
+
+## Page Object Model Structure
+
+### Example
+
+```typescript
+export class ExamplePage {
+  constructor(private page: Page) {}
+
+  async goto() {}
+
+  async search() {}
+
+  async isLoaded() {}
+}
+```
+
+### Rules
+
+* Store selectors inside page objects
+* Keep test logic inside spec files
+* Create reusable methods
+* Avoid duplicated selectors
+
+---
+
+## Playwright Test Template
+
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('Feature Name', () => {
+
+  test('Positive Scenario', async ({ page }) => {
+
+    await test.step('Navigate to page', async () => {
+      await page.goto('/');
+    });
+
+    await test.step('Verify page loaded', async () => {
+      await expect(page).toHaveTitle(/.+/);
+    });
+
+  });
+
+});
+```
+
+---
+
+## GitHub Actions Workflow
+
+Use the following workflow strategy:
+
+### Trigger Events
+
+* push
+* pull_request
+* workflow_dispatch
+* scheduled execution
+
+### Browser Matrix
+
+```yaml
+matrix:
+  browser:
+    - chromium
+    - firefox
+    - webkit
+```
+
+### Required Commands
+
+```bash
+npm ci
+npx playwright install --with-deps
+npx playwright test
+```
+
+---
+
+## Reporting Requirements
+
+Enable:
+
+```typescript
+reporter: [
+  ['html'],
+  ['json'],
+  ['junit'],
+  ['list']
+]
+```
+
+Store:
+
+```text
+playwright-report/
+test-results/
+```
+
+Artifacts:
+
+* Screenshots
+* Videos
+* Traces
+* JUnit XML
+* JSON Results
+
+---
+
+## Failure Handling
+
+Enable:
+
+```typescript
+screenshot: 'only-on-failure'
+video: 'retain-on-failure'
+trace: 'on-first-retry'
+```
+
+---
+
+## QA Best Practices
+
+### Test Design
+
+* Functional Testing
+* Integration Testing
+* Regression Testing
+* UI Validation
+* UX Validation
+
+### Stability
+
+* Prefer locators over CSS chains
+* Avoid fixed waits
+* Use explicit assertions
+* Use retry mechanisms appropriately
+
+### Maintainability
+
+* Reusable page objects
+* Centralized selectors
+* Clear naming conventions
+* Modular test architecture
+
+---
+
+## Common Commands
+
+Run all tests:
+
+```bash
+npm test
+```
+
+Run headed mode:
+
+```bash
+npm run test:headed
+```
+
+Run debug mode:
+
+```bash
+npm run test:debug
+```
+
+Run UI mode:
+
+```bash
+npm run test:ui
+```
+
+Generate report:
+
+```bash
+npm run test:report
+```
+
+Code generation:
+
+```bash
+npx playwright codegen https://github.com
+```
+
+Trace viewer:
+
+```bash
+npx playwright show-trace trace.zip
+```
+
+---
+
+## Expected Output
+
+When generating tests:
+
+1. Create Page Object files if missing.
+2. Create Playwright spec files.
+3. Include positive, negative, and boundary scenarios.
+4. Follow POM architecture.
+5. Use TypeScript.
+6. Use Playwright best practices.
+7. Ensure compatibility with GitHub Actions CI/CD.
+8. Generate maintainable and production-ready code.
