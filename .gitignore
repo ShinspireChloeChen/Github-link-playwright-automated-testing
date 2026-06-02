@@ -1,0 +1,56 @@
+# Playwright 自動化測試框架 - .gitignore
+
+# 依賴
+node_modules/
+package-lock.json
+yarn.lock
+
+# 測試結果和報告
+test-results/
+playwright-report/
+.nyc_output/
+coverage/
+
+# 環境變數
+.env
+.env.local
+.env.*.local
+
+# IDE 和編輯器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# 編譯輸出
+dist/
+build/
+*.js
+*.js.map
+!playwright.config.js
+
+# 日誌
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 臨時文件
+.tmp/
+tmp/
+temp/
+
+# OS 相關
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# 其他
+*.bak
+*.swp
+.cache/
