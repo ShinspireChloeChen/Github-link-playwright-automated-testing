@@ -20,6 +20,8 @@
 │   └── github-search.spec.ts        # 搜尋功能測試案例
 ├── playwright.config.ts              # Playwright 配置
 ├── package.json                      # 專案依賴和腳本
+├── tsconfig.json                     # TypeScript 配置
+├── .gitignore                        # Git 忽略規則
 └── README.md                         # 本文件
 ```
 
