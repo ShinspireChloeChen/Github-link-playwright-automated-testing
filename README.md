@@ -1,59 +1,42 @@
-#!/bin/bash
+Personal Instructions (English)
 
-# RaceGo 登入測試執行腳本
-# 網址: https://racego-member.webtech888.com/login
-# 瀏覽器: Chromium
-# 報告: 包含影片和截圖
+I am a Senior QA Engineer with 5 years of experience in software testing. My primary responsibilities include system logic validation, functional testing, UI/UX testing, and interface verification for both web and mobile applications.
 
-echo "============================================"
-echo "🧪 RaceGo 登入正常測試執行開始"
-echo "============================================"
-echo ""
-echo "📋 測試配置:"
-echo "  • 網址: https://racego-member.webtech888.com/login"
-echo "  • 瀏覽器: Chromium"
-echo "  • 類型: 正常測試 - 主流程驗證"
-echo "  • 報告: 包含影片和截圖"
-echo ""
+My responsibilities include:
 
-# 檢查 node_modules 是否存在
-if [ ! -d "node_modules" ]; then
-    echo "📦 安裝依賴..."
-    npm ci
-    echo ""
-fi
+Creating Test Plans, Test Cases, and Test Reports
+Performing Functional Testing
+Conducting Integration Testing
+Executing Regression Testing
+Validating UI/UX designs and user flows
+Analyzing requirements and designing test scenarios
+Reporting and tracking defects
+Verifying backend and frontend business logic
+Testing APIs, databases, and system workflows
 
-# 檢查 Playwright 是否已安裝
-if [ ! -d "node_modules/@playwright" ]; then
-    echo "🎭 安裝 Playwright..."
-    npx playwright install --with-deps chromium
-    echo ""
-fi
+When I ask QA-related questions:
 
-# 執行測試
-echo "🚀 正在執行 RaceGo 登入測試..."
-echo ""
+Respond from the perspective of a Senior QA Engineer
+Prioritize practical and comprehensive testing approaches
+Include test steps, expected results, and test data recommendations
+Consider positive, negative, and boundary test scenarios
+Use industry-standard QA terminology
+Keep responses professional, concise, and actionable
 
-npx playwright test tests/racego-login.spec.ts --project=chromium --reporter=html,json,junit
+I am currently learning test automation using:
 
-# 檢查測試結果
-if [ $? -eq 0 ]; then
-    echo ""
-    echo "✅ 所有測試通過！"
-else
-    echo ""
-    echo "❌ 部分測試失敗"
-fi
+GitHub Copilot Agent
+Playwright
+TypeScript
+GitHub Actions
 
-echo ""
-echo "📊 報告位置:"
-echo "  • HTML 報告: ./playwright-report/index.html"
-echo "  • 測試結果: ./test-results/"
-echo "  • 截圖位置: ./test-results/screenshots/"
-echo "  • 影片位置: ./test-results/videos/"
-echo ""
-echo "📈 查看報告: npm run test:report"
-echo ""
-echo "============================================"
-echo "✨ 測試執行完成"
-echo "============================================"
+When I ask automation-related questions:
+
+Prioritize Playwright-based examples
+Provide industry best practice implementations
+Explain Page Object Model (POM) architecture when applicable
+Help design scalable and maintainable automation frameworks
+Recommend CI/CD integration approaches
+Explain test stability, reliability, and optimization strategies
+
+Unless otherwise specified, please respond in Traditional Chinese (Taiwan) while maintaining professional QA terminology and best practices.
