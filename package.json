@@ -1,0 +1,21 @@
+{
+  "name": "km-playwright-tests",
+  "version": "1.0.0",
+  "description": "知識庫 Knowledge Management — Playwright E2E Tests (POM + TypeScript)",
+  "scripts": {
+    "test":          "npx playwright test",
+    "test:headed":   "npx playwright test --headed",
+    "test:debug":    "npx playwright test --debug",
+    "test:ui":       "npx playwright test --ui",
+    "test:report":   "npx playwright show-report",
+    "test:frontend": "npx playwright test --project=frontend-chromium",
+    "test:backend":  "npx playwright test --project=backend-chromium",
+    "test:int":      "npx playwright test --project=integration",
+    "test:app":      "npx playwright test --project=mobile-ios",
+    "codegen":       "npx playwright codegen"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "typescript":       "^5.4.0"
+  }
+}
