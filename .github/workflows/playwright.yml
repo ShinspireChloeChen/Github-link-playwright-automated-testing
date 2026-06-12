@@ -1,1 +1,53 @@
-name: KM Playwright Testson:  push:    branches: [ main, develop, 'feature/**' ]  pull_request:    branches: [ main, develop ]  workflow_dispatch:  schedule:    - cron: '0 2 * * *'hjobs:  test:    name: "${{ matrix.project }}"    runs-on: ubuntu-latest    timeout-minutes: 30    strategy:      fail-fast: false      matrix:        project: [frontend-chromium, backend-chromium, integration]    steps:      - uses: actions/checkout@v4      - uses: actions/setup-node@v4        with:          node-version: '20'          cache: 'npm'      - run: npm install      - run: npx playwright install --with-deps chromium firefox      - name: Run Playwright tests        run: npx playwright test --project=${{ matrix.project }}        env:          BASE_URL:      ${{ secrets.BASE_URL }}          ADMIN_URL:     ${{ secrets.ADMIN_URL }}          EDITOR_USER:   ${{ secrets.EDITOR_USER }}          EDITOR_PASS:   ${{ secrets.EDITOR_PASS }}
+name: KM Playwright Tests
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**' ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  test:
+    name: "${{ matrix.project }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [frontend-chromium, backend-chromium, integration]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm install
+      - run: npx playwright install --with-deps chromium firefox
+      - name: Run Playwright tests
+        run: npx playwright test --project=${{ matrix.project }}
+        env:
+          BASE_URL:      ${{ secrets.BASE_URL }}
+          ADMIN_URL:     ${{ secrets.ADMIN_URL }}
+          EDITOR_USER:   ${{ secrets.EDITOR_USER }}
+          EDITOR_PASS:   ${{ secrets.EDITOR_PASS }}
+          ADMIN_USER:    ${{ secrets.ADMIN_USER }}
+          ADMIN_PASS:    ${{ secrets.ADMIN_PASS }}
+          STAFF_USER:    ${{ secrets.STAFF_USER }}
+          STAFF_PASS:    ${{ secrets.STAFF_PASS }}
+          REVIEWER_USER: ${{ secrets.REVIEWER_USER }}
+          REVIEWER_PASS: ${{ secrets.REVIEWER_PASS }}
+          NO_KM_USER:    ${{ secrets.NO_KM_USER }}
+          NO_KM_PASS:    ${{ secrets.NO_KM_PASS }}
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
