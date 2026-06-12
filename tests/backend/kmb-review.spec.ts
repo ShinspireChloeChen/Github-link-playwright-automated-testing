@@ -1,7 +1,7 @@
-import { test, expect } from '../src/fixtures/auth.fixture';
-import { KmbReviewPage }   from '../src/pages/backend/KmbReviewPage';
-import { KmbCategoryPage } from '../src/pages/backend/KmbCategoryPage';
-import { loginBackend, URLS } from '../src/fixtures/auth.fixture';
+import { test, expect } from '../../src/fixtures/auth.fixture';
+import { KmbReviewPage }   from '../../src/pages/backend/KmbReviewPage';
+import { KmbCategoryPage } from '../../src/pages/backend/KmbCategoryPage';
+import { loginBackend, URLS } from '../../src/fixtures/auth.fixture';
 
 const TS = Date.now();
 
