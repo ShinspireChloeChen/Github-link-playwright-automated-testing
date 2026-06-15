@@ -8,6 +8,7 @@ export const ACCOUNTS = {
   admin:    { username: process.env.ADMIN_USER     || 'sys_admin',   password: process.env.ADMIN_PASS    || 'Admin@1234'    },
   noKmRole: { username: process.env.NO_KM_USER    || 'noperm_user', password: process.env.NO_KM_PASS    || 'Noperm@1234'   },
 } as const;
+
 export type AccountRole = keyof typeof ACCOUNTS;
 
 export const URLS = {
@@ -18,15 +19,29 @@ export const URLS = {
 export async function loginFrontend(page: Page, role: AccountRole = 'editor') {
   const lp = new LoginPage(page);
   await lp.goto(URLS.frontend);
-  await lp.login(ACCOUNTS[role].username, ACCOUNTS[role].password);
-  await page.waitForURL(/\/(km|knowledge|home)/i, { timeout: 15_000 });
+  
+  // 使用繞過驗證碼的登入方式
+  await lp.loginBypassCaptcha(ACCOUNTS[role].username, ACCOUNTS[role].password);
+  
+  // 關閉「必須閱讀文章」彈窗（如果出現）
+  await lp.closeRequiredArticleModal();
+  
+  // 等待進入首頁或知識庫頁面
+  await page.waitForURL(/\/(km|knowledge|home|pages)/i, { timeout: 15_000 });
 }
 
 export async function loginBackend(page: Page, role: AccountRole = 'admin') {
   const lp = new LoginPage(page);
   await lp.goto(URLS.backend);
-  await lp.login(ACCOUNTS[role].username, ACCOUNTS[role].password);
-  await page.waitForURL(/\/(dashboard|home)/i, { timeout: 15_000 });
+  
+  // 使用繞過驗證碼的登入方式
+  await lp.loginBypassCaptcha(ACCOUNTS[role].username, ACCOUNTS[role].password);
+  
+  // 關閉「必須閱讀文章」彈窗（如果出現）
+  await lp.closeRequiredArticleModal();
+  
+  // 等待進入後台首頁
+  await page.waitForURL(/\/(dashboard|home|pages)/i, { timeout: 15_000 });
 }
 
 type KmFixtures = { frontendPage: Page; backendPage: Page };
