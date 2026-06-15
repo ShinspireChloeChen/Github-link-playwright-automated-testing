@@ -52,7 +52,7 @@ test.describe('KM 新增文章', () => {
     const form = new KmArticleFormPage(page);
     await test.step('進入新增頁', async () => { await form.goto(); });
     await test.step('填寫表單', async () => { await form.fillForm(BASE_ARTICLE); });
-    await test.step('送審', async () => { await form.submitBtn.click(); });
+    await test.step('送審', async () => { await form.submitForReview(); });
     await test.step('確認送審成功', async () => {
       await expect(page.getByText(/送審成功|Submitted|待審/i)).toBeVisible();
     });
@@ -85,7 +85,10 @@ test.describe('KM 進階功能', () => {
     const overview = new KmOverviewPage(page);
     const detail   = new KmArticleDetailPage(page);
     await test.step('進入文章', async () => { await overview.goto(); await overview.clickFirstArticle(); });
-    await test.step('收藏', async () => { await detail.toggleFavorite(); });
+    await test.step('收藏', async () => {
+      await detail.toggleFavorite();
+      await page.waitForLoadState('networkidle');
+    });
     await test.step('確認已收藏', async () => { await expect(detail.favoriteBtn).toHaveAttribute('aria-pressed', 'true'); });
   });
 
