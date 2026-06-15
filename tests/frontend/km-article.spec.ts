@@ -52,7 +52,7 @@ test.describe('KM 新增文章', () => {
     const form = new KmArticleFormPage(page);
     await test.step('進入新增頁', async () => { await form.goto(); });
     await test.step('填寫表單', async () => { await form.fillForm(BASE_ARTICLE); });
-    await test.step('送審', async () => { await form.submitForReview(); });
+    await test.step('送審', async () => { await form.submitBtn.click(); });
     await test.step('確認送審成功', async () => {
       await expect(page.getByText(/送審成功|Submitted|待審/i)).toBeVisible();
     });
