@@ -1,0 +1,14 @@
+node_modules/
+dist/
+playwright-report/
+test-results/
+*.zip
+*.png
+explore*.js
+dashboard.html
+func03.html
+login_page.html
+spec_content.txt
+tc_content.txt
+google_credentials.json
+google_token.json
