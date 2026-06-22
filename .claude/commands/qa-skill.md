@@ -250,24 +250,11 @@ Any condition above must block merge.
 | URL 欄 | 靠左、垂直置中 | 否 |
 | 其餘欄位 | 水平+垂直置中 | 否 |
 
-### 欄寬｜Column Widths（最小值，openpyxl 單位）
-| 欄位 | 最小寬度 |
-|------|----------|
-| #（序號） | 6 |
-| Issue # | 14 |
-| 主旨 | 62（固定上限，超出內容改以列高展開） |
-| 狀態 | 36 |
-| 建立日期 | 20 |
-| 指派給 | 20 |
-| URL | 78 |
+### 欄寬｜Column Widths
+**一律不設定欄寬，讓 Excel 自動調整。** 不呼叫 `column_dimensions[...].width`。
 
 ### 列高｜Row Heights
-| 列 | 高度 |
-|----|------|
-| 標題列 | 36pt |
-| 欄位表頭列 | 28pt |
-| 資料列 | **不設定（讓 Excel 依 wrap_text 自動計算）** |
-| 統計列 | 28pt |
+**一律不設定列高，讓 Excel 自動調整。** 不呼叫 `row_dimensions[...].height`。
 
 ### 框線｜Border
 全部儲存格套用細框線：`Side(style="thin", color="AAAAAA")`，四邊皆有。
