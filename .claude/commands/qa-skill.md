@@ -191,15 +191,16 @@ Any condition above must block merge.
 
 ## Language Rules｜語言規範
 
-> **強制規定：所有輸出（回覆、說明、Excel 欄位標題、摘要文字、UI 介面）一律使用繁體中文。**
+> **強制規定：所有輸出（回覆、說明、表格欄位標題、摘要文字、UI 介面）一律使用繁體中文。**
 
 | 規定 | 說明 |
 |------|------|
 | 回覆語言 | 繁體中文，嚴禁英文、簡體中文、其他語言混用 |
-| Excel 欄位標題 | 繁體中文 |
+| 表格欄位標題 | 繁體中文 |
 | 摘要說明文字 | 繁體中文 |
 | QA 結論標籤 | 保留英文縮寫（PASS/FAIL/SKIP），其餘說明用繁體中文 |
 | 使用台灣 QA 慣用術語 | 測試案例、缺陷、品質閘門、合併、上線等 |
+| 測試人員預設值 | **資深 QA**（不寫個人姓名） |
 
 ---
 
@@ -208,56 +209,58 @@ Any condition above must block merge.
 | 規定 | 說明 |
 |------|------|
 | 預設語言 | **繁體中文**（強制，不得例外） |
-| 總結報告格式 | **一律產出 Excel 檔**（`.xlsx`），不產出 HTML 或純文字報告 |
-| 總結報告寄送 | **自動寄送至使用者信箱**（參照 memory reference_email），無需額外指示 |
+| 總結報告格式 | **一律產出自包含 HTML 檔**（`.html`），資料內嵌於檔案，不產出 Excel 或純文字 |
+| 總結報告寄送 | **自動寄送至使用者信箱**（參照 memory reference_email），HTML 檔作為附件，無需額外指示 |
+| 同步發布 | 同時以 Artifact 工具發布 HTML，供瀏覽器互動檢視 |
 | 缺漏需求 | 必須主動指出，不得自行假設未定義規格正確 |
 | 風險評估 | 測試前必須進行 |
 
 > **總結報告觸發條件**：使用者說「產出報告」「出報告」「總結」「QA 報告」等，即自動執行：
-> 1. 用 openpyxl 產生 Excel 執行結果報告（格式見下方規範）
-> 2. 從 memory `reference_email` 取得 SMTP 設定，用 PowerShell 寄送
-> 3. 回覆寄送成功確認（繁體中文）
+> 1. 依下方 HTML 格式規範產生自包含 `.html` 報告檔
+> 2. 從 memory `reference_email` 取得 SMTP 設定，用 PowerShell 將 HTML 檔作為附件寄送
+> 3. 用 Artifact 工具發布 HTML，回覆寄送成功確認（繁體中文）
 
 ---
 
-## Excel 報表格式規範｜Standard Excel Report Format
+## HTML 報表格式規範｜Standard HTML Report Format
 
-> 所有需要產生 Excel 表格的任務，一律套用以下格式。
+> 所有總結報告一律輸出為自包含 HTML 檔，資料完整內嵌，無外部資源依賴。
 
-### 字體｜Font
-| 位置 | 字體 | 大小 | 樣式 |
-|------|------|------|------|
-| 標題列（第1列） | 微軟正黑體 | 18pt | 粗體、白色 |
-| 欄位表頭（第2列） | 微軟正黑體 | 18pt | 粗體、白色 |
-| 主旨欄資料 | 微軟正黑體 | **16pt** | 一般 |
-| 其餘資料欄位 | 微軟正黑體 | **16pt** | 一般 |
-| 統計列（末列） | 微軟正黑體 | **16pt** | 斜體、灰色 #595959 |
+### 表格結構
+- `table-layout: fixed`，所有表格使用相同欄數（6欄），總寬 1200px
+- 每欄固定寬度：**200px**
+- 每列最小高度：**35px**（`height: 35px`，內容超出時自動撐高）
+- 超過欄寬自動換行：`word-wrap: break-word; overflow-wrap: break-word; white-space: normal`
+- 外層加 `overflow-x: auto` 容器，支援窄螢幕橫向捲動
+- `border-collapse: collapse`，每格 `1px solid #AAAAAA` 框線
 
 ### 色彩｜Colors（亮藍色主題）
 | 區域 | 色碼 |
 |------|------|
-| 標題列背景 | `#0D47A1`（深亮藍） |
-| 欄位表頭背景 | `#1E88E5`（亮藍） |
+| 報告標題列背景 | `#0D47A1`（深亮藍） |
+| 章節標頭背景 | `#1E88E5`（亮藍） |
+| 欄位表頭背景 | `#0D47A1` |
 | 偶數資料列背景 | `#BBDEFB`（淡藍） |
 | 奇數資料列背景 | `#FFFFFF`（白色） |
-| 超連結文字 | `#0563C1`（藍色底線） |
 
-### 對齊｜Alignment
-| 欄位 | 對齊方式 | 換行 |
-|------|----------|------|
-| #（序號）欄 | 靠左、垂直置中 | 否 |
-| 主旨欄 | 靠左、垂直置中 | **是**（wrap_text=True，列高自動撐開） |
-| URL 欄 | 靠左、垂直置中 | 否 |
-| 其餘欄位 | 水平+垂直置中 | 否 |
+### 字體｜Font
+| 位置 | 字體 | 大小 | 樣式 |
+|------|------|------|------|
+| 所有儲存格 | `'微軟正黑體', 'Microsoft JhengHei', sans-serif` | — | — |
+| 報告標題 | 同上 | 18px | bold、白色 |
+| 章節標頭 | 同上 | 16px | bold、白色 |
+| 欄位表頭 | 同上 | 16px | bold、白色 |
+| 資料儲存格 | 同上 | 16px | 一般 |
 
-### 欄寬｜Column Widths
-**一律不設定欄寬，讓 Excel 自動調整。** 不呼叫 `column_dimensions[...].width`。
+### 對齊
+- 鍵值欄（Key）、ID 欄、等級欄：`text-align: center; vertical-align: middle`
+- 說明欄、描述欄：`text-align: left; vertical-align: middle`
+- 數字欄：`text-align: center; vertical-align: middle`
 
-### 列高｜Row Heights
-**一律不設定列高，讓 Excel 自動調整。** 不呼叫 `row_dimensions[...].height`。
-
-### 框線｜Border
-全部儲存格套用細框線：`Side(style="thin", color="AAAAAA")`，四邊皆有。
-
-### Python 套件
-使用 `openpyxl`，字體名稱 `"微軟正黑體"`。
+### 色彩語義
+| 狀態 | 顏色 |
+|------|------|
+| PASS / 通過 | `#1B5E20`（深綠） |
+| SKIP / 跳過 | `#7B5500`（琥珀） |
+| FAIL / 失敗 | `#B71C1C`（深紅） |
+| 結論印章 | `#1565C0`（皇家藍），旋轉 -3deg，虛線金色邊框 |
