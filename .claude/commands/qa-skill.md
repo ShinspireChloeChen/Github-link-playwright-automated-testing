@@ -209,20 +209,53 @@ Any condition above must block merge.
 | 規定 | 說明 |
 |------|------|
 | 預設語言 | **繁體中文**（強制，不得例外） |
-| 總結報告格式 | **一律產出自包含 HTML 檔**（`.html`），資料內嵌於檔案，不產出 Excel 或純文字 |
-| 總結報告寄送 | **自動寄送至使用者信箱**（參照 memory reference_email），HTML 檔作為附件，無需額外指示 |
-| 同步發布 | 同時以 Artifact 工具發布 HTML，供瀏覽器互動檢視 |
+| 總結報告格式 | **同時產出兩個檔案**：① Excel `.xlsx` ② 自包含 HTML `.html` |
+| 總結報告寄送 | **自動寄送至使用者信箱**（參照 memory reference_email），**兩個檔案都附在同一封信**，無需額外指示 |
+| 同步發布 | HTML 檔同時以 Artifact 工具發布，供瀏覽器互動檢視 |
 | 缺漏需求 | 必須主動指出，不得自行假設未定義規格正確 |
 | 風險評估 | 測試前必須進行 |
 
 > **總結報告觸發條件**：使用者說「產出報告」「出報告」「總結」「QA 報告」等，即自動執行：
-> 1. 依下方 HTML 格式規範產生自包含 `.html` 報告檔
-> 2. 從 memory `reference_email` 取得 SMTP 設定，用 PowerShell 將 HTML 檔作為附件寄送
-> 3. 用 Artifact 工具發布 HTML，回覆寄送成功確認（繁體中文）
+> 1. 用 openpyxl 依下方 Excel 格式規範產生 `.xlsx`
+> 2. 依下方 HTML 格式規範產生自包含 `.html`
+> 3. 從 memory `reference_email` 取得 SMTP 設定，用 PowerShell 將 **兩個檔案同時附在一封信** 寄送
+> 4. 用 Artifact 工具發布 HTML，回覆寄送成功確認（繁體中文）
 
 ---
 
-## HTML 報表格式規範｜Standard HTML Report Format
+## Excel 報表格式規範｜Excel Report Format
+
+### 欄寬｜Column Width
+- 所有欄位固定寬度：`column_dimensions[col].width = 25`（openpyxl 單位，約等於 200px 顯示寬度）
+
+### 列高｜Row Height
+- 所有列固定高度：`row_dimensions[row].height = 35`（單位：pt）
+
+### 換行｜Wrap
+- 所有儲存格設定 `wrap_text = True`，超過欄寬自動換行
+
+### 字體｜Font
+| 位置 | 字體 | 大小 | 樣式 |
+|------|------|------|------|
+| 標題列 | 微軟正黑體 | 18pt | bold、白色 |
+| 章節/表頭 | 微軟正黑體 | 16pt | bold、白色 |
+| 資料儲存格 | 微軟正黑體 | 16pt | 一般 |
+
+### 色彩（亮藍色主題）
+| 區域 | 色碼 |
+|------|------|
+| 標題列背景 | `#0D47A1` |
+| 章節標頭背景 | `#1E88E5` |
+| 欄位表頭背景 | `#0D47A1` |
+| 偶數列背景 | `#BBDEFB` |
+| 奇數列背景 | `#FFFFFF` |
+
+### 框線
+`Side(style="thin", color="AAAAAA")`，四邊皆有
+
+---
+
+## HTML 報表格式規範｜HTML Report Format
 
 > 所有總結報告一律輸出為自包含 HTML 檔，資料完整內嵌，無外部資源依賴。
 
