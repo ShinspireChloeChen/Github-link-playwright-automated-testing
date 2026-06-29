@@ -2,12 +2,8 @@ name: KM Playwright Tests
 
 on:
   push:
-    branches: [ main, develop, 'feature/**' ]
-  pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
   workflow_dispatch:
-  schedule:
-    - cron: '0 2 * * *'
 
 jobs:
   test:
